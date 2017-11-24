@@ -2,6 +2,7 @@ package br.com.zonesoftware.dynamic.build.app.model;
 
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,7 +26,7 @@ public class Classe implements BaseEntity {
     @Column(length = 80)
     private String nome;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Atributo> atributos;
     
     @Override

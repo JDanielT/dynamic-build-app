@@ -38,7 +38,7 @@ public class Atributo implements BaseEntity {
     @Enumerated(EnumType.STRING)
     private TipoAtributo tipo;
     
-    private boolean main;
+    private boolean main = Boolean.FALSE;
     
     @ManyToOne
     @JoinColumn(name = "classe_id")
@@ -92,11 +92,12 @@ public class Atributo implements BaseEntity {
     public void setClasse(Classe classe) {
         this.classe = classe;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 53 * hash + Objects.hashCode(this.id);
+        hash = 89 * hash + Objects.hashCode(this.id);
+        hash = 89 * hash + Objects.hashCode(this.nome);
         return hash;
     }
 
@@ -112,6 +113,9 @@ public class Atributo implements BaseEntity {
             return false;
         }
         final Atributo other = (Atributo) obj;
+        if (!Objects.equals(this.nome, other.nome)) {
+            return false;
+        }
         return Objects.equals(this.id, other.id);
     }
     

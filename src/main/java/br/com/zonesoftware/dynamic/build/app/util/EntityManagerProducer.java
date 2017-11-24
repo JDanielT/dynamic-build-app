@@ -28,7 +28,7 @@ public class EntityManagerProducer {
     }
     
     public void reload(){
-        this.factory = Persistence.createEntityManagerFactory("compile-app");
+        this.factory = Persistence.createEntityManagerFactory("dynamic-build-app");
     }
 
 }

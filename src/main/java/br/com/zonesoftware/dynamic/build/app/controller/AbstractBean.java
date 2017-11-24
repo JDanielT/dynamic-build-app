@@ -21,6 +21,9 @@ public abstract class AbstractBean<T extends BaseEntity> implements Serializable
     @Inject
     private FacesMessages messages;
 
+    public AbstractBean() {
+    }
+    
     public AbstractBean(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
