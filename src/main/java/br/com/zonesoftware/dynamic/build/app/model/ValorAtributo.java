@@ -20,7 +20,7 @@ import javax.persistence.Table;
 @Table(name = "valores_atributos")
 @NamedQueries({
     @NamedQuery(name = ValorAtributo.BUSCAR_VALORES_POR_ATRIBUTO,
-                query = "SELECT v FROM ValorAtributo v WHERE atributo.id = ?")
+                query = "SELECT v FROM ValorAtributo v WHERE atributo.id = ?1")
 })
 public class ValorAtributo implements BaseEntity {
     

@@ -22,7 +22,7 @@ import javax.persistence.UniqueConstraint;
 @Table(name = "atributos", uniqueConstraints=@UniqueConstraint(columnNames={"id", "rotulo"}))
 @NamedQueries({
     @NamedQuery(name = Atributo.BUSCAR_ATRIBUTOS_POR_CLASSE, 
-                query = "SELECT a FROM Atributo a WHERE classe.id = ?")})
+                query = "SELECT a FROM Atributo a WHERE classe.id = ?1")})
 public class Atributo implements BaseEntity {
     
     public static final String BUSCAR_ATRIBUTOS_POR_CLASSE = "buscarAtributosPorClasse";
@@ -95,9 +95,8 @@ public class Atributo implements BaseEntity {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 89 * hash + Objects.hashCode(this.id);
-        hash = 89 * hash + Objects.hashCode(this.nome);
+        int hash = 3;
+        hash = 11 * hash + Objects.hashCode(this.nome);
         return hash;
     }
 
@@ -116,7 +115,7 @@ public class Atributo implements BaseEntity {
         if (!Objects.equals(this.nome, other.nome)) {
             return false;
         }
-        return Objects.equals(this.id, other.id);
+        return true;
     }
-    
+
 }

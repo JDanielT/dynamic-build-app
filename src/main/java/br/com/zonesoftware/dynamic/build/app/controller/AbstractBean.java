@@ -19,7 +19,7 @@ public abstract class AbstractBean<T extends BaseEntity> implements Serializable
     private T entity;
     
     @Inject
-    private FacesMessages messages;
+    protected FacesMessages messages;
 
     public AbstractBean() {
     }
@@ -54,6 +54,7 @@ public abstract class AbstractBean<T extends BaseEntity> implements Serializable
             Logger.getLogger(AbstractBean.class.getName()).log(Level.SEVERE, null, ex);
             messages.error("Ocorreu um erro ao salvar. Erro: " + ex.getMessage());
         }
+        setEntity(null);
     }
     
     public void excluir(){

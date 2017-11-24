@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @Table(name = "instancias")
 @NamedQueries({
     @NamedQuery(name = Instancia.BUSCAR_INSTANCIAS_POR_CLASSE,
-                query = "SELECT i FROM Instancia i WHERE classe.id = ?")
+                query = "SELECT i FROM Instancia i WHERE classe.id = ?1")
 })
 public class Instancia implements BaseEntity {
 

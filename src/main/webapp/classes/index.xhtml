@@ -10,7 +10,9 @@
 
         <h1>Classes</h1>
 
-        <h:form id="frmClasses" >
+        <h:form id="frmClasses" prependId="false" >
+
+            <p:messages id="msgs" />
 
             <p:toolbar id="toolbar">
 
@@ -33,7 +35,6 @@
 
                     <p:commandButton icon="ui-icon-pencil" 
                                      title="Editar" 
-                                     process="@this" 
                                      update="classe-dialog"
                                      oncomplete="PF('classeDialog').show()"
                                      disabled="#{classeBean.entity == null}" >
@@ -80,8 +81,8 @@
                          selectionMode="single"
                          rowKey="#{item.id}" >
 
-                <p:ajax event="rowSelect" update=":frm:toolbar" />
-                <p:ajax event="rowUnselect" update=":frm:toolbar" />
+                <p:ajax event="rowSelect" update=":frmClasses:toolbar" />
+                <p:ajax event="rowUnselect" update=":frmClasses:toolbar" />
 
                 <p:column headerText="Id" >
                     <h:outputText value="#{item.id}" />
@@ -98,26 +99,31 @@
                       widgetVar="classeDialog" 
                       resizable="false" 
                       modal="true"  
-                      closeOnEscape="true" >
+                      closeOnEscape="true"
+                      dynamic="true"
+                      style="max-width: 800px" >
 
                 <p:messages id="msgs-dialog" />
                 <p:defaultCommand target="salvar-button" scope="classe-dialog" />
 
-                <h:panelGrid columns="2" 
+                <h:panelGrid columns="1" 
                              id="painel-dialog" >
 
-                    <p:outputLabel value="Nome" for="nome" />
+                    <p:outputLabel value="Nome da Classe" for="nome" />
                     <p:inputText id="nome"
                                  maxlength="80" 
                                  value="#{classeBean.entity.nome}"
                                  required="true"
                                  requiredMessage="Campo nome é requerido" />
 
+                    <br/>
+
                     <p:fieldset legend="Atributos" >
 
                         <p:dataTable id="atributos-table"
                                      value="#{classeBean.entity.atributos}"
-                                     var="atributo" >
+                                     var="atributo" 
+                                     emptyMessage="Não há atributos" >
 
                             <p:column headerText="Rótulo" > 
                                 <h:outputText value="#{atributo.rotulo}" />
@@ -132,60 +138,65 @@
                                 <h:outputText value="Não" rendered="#{!atributo.main}" />
                             </p:column>
 
+                            <p:column headerText="Opções"
+                                      style="width: 50px" >
+
+                                <center>
+                                    <p:commandButton icon="ui-icon-trash" 
+                                                     title="excluir"
+                                                     process="atributos-table"
+                                                     actionListener="#{classeBean.excluirAtributo(atributo)}" 
+                                                     update="atributos-table msgs-dialog" />
+                                </center>
+
+                            </p:column>
+
                         </p:dataTable>
 
-                        <p:commandButton icon="ui-icon-document" 
-                                         title="Novo" 
-                                         process="@this" 
-                                         actionListener="#{classeBean.preCadastroAtributo()}"
-                                         update="painel-atributo" />
-
-                        <br/>
+                        <hr/>
 
                         <p:panel id="painel-atributo"
                                  header="Novo Atributo">
 
-                            <p:outputLabel value="Rótulo" for="rotulo" />
-                            <p:inputText id="rotulo"
-                                         maxlength="255" 
-                                         value="#{classeBean.atributo.rotulo}"
-                                         required="true"
-                                         requiredMessage="Campo rótulo é requerido"
-                                         disabled="#{classeBean.atributo == null}" />
+                            <h:panelGrid columns="4" >
 
-                            <p:outputLabel value="Nome do atributo" for="nome-atributo" />
-                            <p:inputText id="nome-atributo"
-                                         maxlength="255" 
-                                         value="#{classeBean.atributo.nome}"
-                                         required="true"
-                                         requiredMessage="Campo nome do atributo é requerido"
-                                         disabled="#{classeBean.atributo == null}" />
+                                <div>
 
-                            <p:outputLabel value="Tipo" for="tipo" />
-                            <p:selectOneMenu value="#{classeBean.atributo.tipo}"
-                                             required="true"
-                                             requiredMessage="Campo tipo é requerido"
-                                             disabled="#{classeBean.atributo == null}" >
+                                    <p:outputLabel value="Rótulo" for="rotulo" /><br/>
+                                    <p:inputText id="rotulo"
+                                                 maxlength="255" 
+                                                 value="#{classeBean.atributo.rotulo}"/>
 
-                                <f:selectItem itemLabel="Selecione" />
-                                <f:selectItems value="#{classeBean.tiposAtributos}" />
+                                </div>
 
-                            </p:selectOneMenu>
+                                <div>
+                                    <p:outputLabel value="Tipo" for="tipo" /><br/>
+                                    <p:selectOneMenu id="tipo"
+                                                     value="#{classeBean.atributo.tipo}" >
 
-                            <p:outputLabel value="Principal" for="principal" />
-                            <p:selectOneRadio value="#{classeBean.atributo.main}"
-                                              disabled="#{classeBean.atributo == null}" >
-                                <f:selectItem itemLabel="Sim" itemValue="#{Boolean.TRUE}" />
-                                <f:selectItem itemLabel="Não" itemValue="#{Boolean.FALSE}" />
-                            </p:selectOneRadio>
+                                        <f:selectItems value="#{classeBean.tiposAtributos}" />
+
+                                    </p:selectOneMenu>
+                                </div>
+
+                                <div>
+                                    <p:outputLabel value="Principal" for="principal" /><br/>
+                                    <p:selectOneRadio id="principal" 
+                                                      value="#{classeBean.atributo.main}"  >
+                                        <f:selectItem itemLabel="Sim" itemValue="#{true}" />
+                                        <f:selectItem itemLabel="Não" itemValue="#{false}" />
+                                    </p:selectOneRadio>
+                                </div>
+
+                            </h:panelGrid>
 
                             <hr/>
 
                             <p:commandButton value="Adicionar Atributo" 
                                              id="salvar-atributo-button"
                                              action="#{classeBean.adicionarAtributo()}"
-                                             process="painel-atributo" 
-                                             update="msgs-dialog painel-dialog atributos-table" />
+                                             process="painel-atributo"
+                                             update="msgs-dialog painel-atributo atributos-table" />
 
                         </p:panel>
 
