@@ -17,6 +17,7 @@ public abstract class AbstractBean<T extends BaseEntity> implements Serializable
     
     private Class<T> entityClass;
     private T entity;
+    protected List<T> itens;
     
     @Inject
     protected FacesMessages messages;
@@ -68,6 +69,10 @@ public abstract class AbstractBean<T extends BaseEntity> implements Serializable
     
     public List<T> getItens(){
         return getRepository().listarTodos();
+    }
+
+    public void setItens(List<T> itens) {
+        this.itens = itens;
     }
     
 }

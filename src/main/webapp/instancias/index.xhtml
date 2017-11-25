@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<ui:composition template="/WEB-INF/templates/Layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="corpo">
+
+        <h1>#{instanciaBean.classe.nome}</h1>
+
+        <h:form>
+
+            <p:toolbar id="toolbar">
+
+                <f:facet name="left">
+
+                    <p:commandButton value="Novo" 
+                                     actionListener="#{instanciaBean.preCadastro()}"
+                                     icon="ui-icon-document"
+                                     process="@this" 
+                                     update="painel-dialog"
+                                     oncomplete="PF('instanciaDialog').show()"  >
+
+                        <p:resetInput target="instancia-dialog" />
+
+                    </p:commandButton>
+
+                </f:facet>
+
+            </p:toolbar>
+
+            <p:dataTable id="instancias-table"
+                         value="#{instanciaBean.itens}" 
+                         var="instancia"
+                         emptyMessage="Não há registros" 
+                         paginator="true" 
+                         rows="10"
+                         paginatorPosition="bottom"
+                         style="margin-top: 10px"
+                         rowKey="#{item.id}" >
+
+                <p:columns value="#{instanciaBean.classe.atributos}" 
+                           var="atributo" 
+                           headerText="#{atributo.rotulo}">
+                    
+                    <h:outputText value="#{instanciaBean.buscarValorPorAtributo(atributo, instancia).valor}" />
+                        
+                </p:columns> 
+
+            </p:dataTable>
+
+            <p:dialog header="Novo(a) #{instanciaBean.classe.nome}" 
+                      id="instancia-dialog"
+                      widgetVar="instanciaDialog" 
+                      resizable="false" 
+                      modal="true"  
+                      closeOnEscape="true"
+                      dynamic="true"
+                      style="max-width: 800px" >
+
+                <p:messages id="msgs-dialog" />
+                <p:defaultCommand target="salvar-button" scope="instancia-dialog" />
+
+                <h:panelGrid columns="1" 
+                             id="painel-dialog" >
+
+                    <ui:repeat value="#{instanciaBean.classe.atributos}"
+                               var="atributo" >
+
+                        <div>
+
+                            <h:outputLabel value="#{atributo.rotulo}" /> <br/>
+
+                            <p:inputText value="#{instanciaBean.valores[atributo.nome]}"
+                                         style="width: 250px"  />
+
+                        </div>
+
+                        <br/>
+
+                    </ui:repeat>
+
+                    <p:commandButton value="Salvar" 
+                                     id="salvar-button"
+                                     action="#{instanciaBean.salvar()}"
+                                     process="painel-dialog" 
+                                     update="msgs-dialog painel-dialog instancias-table"
+                                     oncomplete="if (!args.validationFailed) PF('instanciaDialog').hide()" />
+
+                </h:panelGrid>
+
+            </p:dialog>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

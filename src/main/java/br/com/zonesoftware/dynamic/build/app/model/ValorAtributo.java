@@ -19,23 +19,23 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "valores_atributos")
 @NamedQueries({
-    @NamedQuery(name = ValorAtributo.BUSCAR_VALORES_POR_ATRIBUTO,
-                query = "SELECT v FROM ValorAtributo v WHERE atributo.id = ?1")
+    @NamedQuery(name = ValorAtributo.BUSCAR_VALORES_POR_ATRIBUTO_INSTANCIA,
+                query = "SELECT v FROM ValorAtributo v WHERE atributo.id = ?1 AND instancia.id = ?2")
 })
 public class ValorAtributo implements BaseEntity {
     
-    public static final String BUSCAR_VALORES_POR_ATRIBUTO = "buscarValoresPorAtributo";
+    public static final String BUSCAR_VALORES_POR_ATRIBUTO_INSTANCIA = "buscarValoresPorAtributoInstancia";
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     @ManyToOne
-    @JoinColumn(name = "instancia_id")
+    @JoinColumn(name = "instancia_id", referencedColumnName = "id")
     private Instancia instancia;
     
     @ManyToOne
-    @JoinColumn(name = "atributo_id")
+    @JoinColumn(name = "atributo_id", referencedColumnName = "id")
     private Atributo atributo;
     
     @Column(columnDefinition = "TEXT")

@@ -54,21 +54,18 @@ public class ClasseBean extends AbstractBean<Classe> {
      * Métodos relativos a atributos
      */
     public void adicionarAtributo() {
-        if (atributo.getNome() != null) {
+        if (atributo.getRotulo()!= null) {
 
             //Criando um nome sem caracteres especiais para o atributo
             atributo.setNome(gerarNome(atributo.getRotulo()));
-
+            atributo.setClasse(getEntity());
+            
             getEntity().getAtributos().add(atributo);
             atributo = new Atributo();
 
         }
     }
 
-    public void teste(){
-        System.out.println(" ********* ");
-    }
-    
     public void excluirAtributo(Atributo a) {
         getEntity().getAtributos().remove(a);
         messages.info("Atributo excluído!");

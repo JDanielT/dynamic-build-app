@@ -11,7 +11,29 @@
     <h:body>
 
         <header>
+
             <h:graphicImage library="img" name="logo.png" />
+
+            <div style="float: right; margin-top: 5px">
+
+                <h:form id="formMenu" prependId="false">
+
+                    <ui:repeat value="#{classeBean.itens}" var="classe">
+
+                        <a href="#{request.contextPath}/instancias/#{classe.id}" >
+                            <h:outputText value="#{classe.nome}" class="text-header" />
+                        </a>
+
+                        <span style="width: 5px"></span>
+
+                    </ui:repeat>
+
+                    <p:button outcome="/index.xhtml" value="Classes" />
+
+                </h:form>
+
+            </div>
+
         </header>
 
         <div id="conteudo">
@@ -19,7 +41,7 @@
         </div>
 
         <footer>
-            © 2016 ZoneSoftware - Todos os direitos reservados
+            © 2017 ZoneSoftware - Todos os direitos reservados
         </footer>
 
         <h:form>

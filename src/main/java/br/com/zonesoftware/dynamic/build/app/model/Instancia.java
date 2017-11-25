@@ -2,7 +2,9 @@ package br.com.zonesoftware.dynamic.build.app.model;
 
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,10 +34,10 @@ public class Instancia implements BaseEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "classe_id")
+    @JoinColumn(name = "classe_id", referencedColumnName = "id")
     private Classe classe;
 
-    @OneToMany
+    @OneToMany(mappedBy = "instancia", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ValorAtributo> valores;
 
     @Override

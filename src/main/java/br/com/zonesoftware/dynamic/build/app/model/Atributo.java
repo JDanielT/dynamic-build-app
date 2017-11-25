@@ -41,7 +41,7 @@ public class Atributo implements BaseEntity {
     private boolean main = Boolean.FALSE;
     
     @ManyToOne
-    @JoinColumn(name = "classe_id")
+    @JoinColumn(name = "classe_id", referencedColumnName = "id")
     private Classe classe;
     
     @Override

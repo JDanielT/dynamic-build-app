@@ -27,7 +27,7 @@ public class Classe implements BaseEntity {
     @Column(length = 80)
     private String nome;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "classe", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Atributo> atributos;
     
     @Override
